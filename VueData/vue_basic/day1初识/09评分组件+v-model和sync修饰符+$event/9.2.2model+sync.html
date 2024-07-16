@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>   
+    <link rel="stylesheet" href="./iconfont.css">
+</head>
+<body>
+    <div id="app901">
+        <!-- <star :count='10'></star>
+        <star :score='2' ></star>
+        <star :score='8' :count='6' ></star> -->
+
+        <star label="商品符合度" :value="score1" @input='score1 = $event'></star>
+        <star label="店家服务态度" v-model="score2"></star><!--v-model相当于触发了一个:value 和@input的事件-->
+        <star label="快递配送速度" v-model="score3"></star>
+        <star label="快递员服务" v-model="score4"></star>
+        <star label="快递包裹" v-model="score5"></star>
+        <hr>
+        <star label="快递" v-model="score1" :count="count1" @change-count='count1=$event'>1</star>
+        <star label="快递员" v-model="score2" :count.sync="count2">2</star><!--aync修饰符，同步-->
+        
+        <button>提交评价</button>
+    </div>
+    <script src="../../js/vue.js"></script>
+    <script>
+        Vue.component('star', {
+            props:{
+                label: {
+                    type: String
+                },
+                count:{
+                    type: Number,
+                    default: 5,
+                    validator(val) {
+                        return val >= 0
+                    }
+                },
+                value:{
+                    type: Number,
+                    default: 1,
+                    validator(val) {
+                        return val >= 0
+                    }
+                },
+                
+            },
+            template:`
+            <div>
+                <label>{{label}}</label>
+                 <i class="iconfont" 
+                    :class='item <= value ? "icon-shoucang" : "icon-shoucang1" ' 
+                    @mouseenter='updateScore(item)'
+                    @mouseleave='updateScore(bak_score)' 
+                    @click="bak_score=item" v-for="item in count"></i>
+                    
+                <button @click='$emit("change-count",6)'>cnt1</button>
+                
+                <button @click='$emit("update:count",7)'>cnt2</button>
+            </div>
+           `,
+           
+            methods: {
+                updateScore(val){
+                    //告诉父级要修改
+                    this.$emit('input', val)
+                    //this.$parent.score1 = val
+                },
+            },
+            created() {
+                if (this.score > this.count ) throw 'score不能大于count'
+                this.bak_score = this.value
+            },
+
+            data() {
+                return {
+                    bak_score: 0
+                }
+            },
+        })
+
+        //局部
+        new Vue({
+            el: "#app901",
+               data() {
+                    return {
+                        count1: 9,
+                        count2: 10,
+                        score1: 0,
+                        score2: 0,
+                        score3: 0,
+                        score4: 0,
+                        score5: 0
+                    }
+               },
+               methods: {
+                   
+               }
+        })
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>   
+    <link rel="stylesheet" href="./iconfont.css">
+</head>
+<body>
+    <div id="app901">
+        <!-- <star :count='10'></star>
+        <star :score='2' ></star>
+        <star :score='8' :count='6' ></star> -->
+
+        <h1>{{score1}}</h1>
+        <star :score="score1" @change='setScore'></star>
+        <button>提交评价</button>
+    </div>
+    <script src="../../js/vue.js"></script>
+    <script>
+        Vue.component('star', {
+            props:{
+                count:{
+                    type: Number,
+                    default: 5,
+                    validator(val) {
+                        return val >= 0
+                    }
+                },
+                score:{
+                    type: Number,
+                    default: 1,
+                    validator(val) {
+                        return val >= 0
+                    }
+                },
+                
+            },
+            template:`
+            <div>
+                 <i class="iconfont" 
+                    :class='item <= score ? "icon-shoucang" : "icon-shoucang1" ' 
+                    @mouseenter='updateScore(item)'
+                    @mouseleave='updateScore(bak_score)' 
+                    @click="bak_score=item" v-for="item in count"></i>   
+            </div>
+           `,
+           
+            methods: {
+                updateScore(val){
+                    //告诉父级要修改
+                    this.$emit('change', val)
+                    //this.$parent.score1 = val
+                },
+            },
+            created() {
+                if (this.score > this.count ) throw 'score不能大于count'
+                this.bak_score = this.score
+            },
+
+            data() {
+                return {
+                    bak_score: 0
+                }
+            },
+        })
+
+        //局部
+        new Vue({
+            el: "#app901",
+               data() {
+                    return {
+                        score1: 0
+                    }
+               },
+               methods: {
+                    setScore(data) {
+                        this.score1 = data
+                    }
+               }
+        })
+        
+    </script>
+</body>
+</html>

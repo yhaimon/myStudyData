@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue学习目录</title>
+     <!--引入Vue-->
+     <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    
+    <!-- 准备一个容器-->
+    <div id="root">
+        <h1>Vue的学习</h1>
+        <hr/>
+        <a :href="url_01">01_初识Vue</a><br>
+        <a :href="url_02">02_Vue模板语法</a><br>
+        <a :href="url_03">03_数据绑定</a><br>
+        <a :href="url_04">04_el与data的两种写法</a><br>
+    </div>
+
+    <script type="text/javascript">
+        Vue.config.productionTip = false
+        new Vue({
+            el: "#root",
+            data:{
+                url_01: 'http://127.0.0.1:5500/01_%E5%88%9D%E8%AF%86Vue/01%E5%88%9D%E8%AF%86Vue.html',
+                url_02: "http://127.0.0.1:5500/02_Vue%E6%A8%A1%E6%9D%BF%E8%AF%AD%E6%B3%95/02%E6%A8%A1%E6%9D%BF%E8%AF%AD%E6%B3%95.html",
+                url_03: 'http://127.0.0.1:5500/03_%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A/03%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A.html',
+                url_04: '',
+            }
+        })
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app904">
+
+        <!-- <el-modal :visible.sync="show"></el-modal>
+        <el-page :current.sync="pageIndex"></el-page> -->
+
+        <h3>{{age1}}</h3>
+        <!-- <demo :age="age1" @add="age1++"></demo> -->
+
+        <!-- <demo :value="age1" @input="age1 = $event"></demo> -->
+        <!-- <demo v-model="age1"></demo> -->
+
+        <!-- <demo :count="" @update:count="age1 = $event"></demo> -->
+        <demo :count.sync="age1" :zz.sync="age1"></demo>
+        <!-- <demo v-model:a="age1" v-model:b="age1"></demo> -->
+    </div>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <script>
+
+        Vue.component('demo', {
+            props: ['count', 'zz'],
+            template:`
+            <h1>{{count}}---{{zz}}
+                <button @click='$emit("update:count", count+1)'>add</button>
+                <button @click='$emit("update:count", count+2)'>addzz</button>
+            </h1>
+            `,
+        })
+        
+    //局部
+    new Vue({
+        el: "#app904",
+        data() {
+            return {
+               age1:20
+            }
+        },
+        mounted() {
+           
+        },
+        methods: {
+            zzz(e){
+
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

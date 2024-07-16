@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台报错！</title>
+    <style>
+       .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity .5s;
+        }        /* opacity不透明      动画样式 fade 为名字(自己随便定义), 后面的enter-active 和 leave-active 分别代表进场和出场 Vue 会自动识别 */
+
+        .fade-enter,
+        .fade-leave-to {
+            opacity: 0;
+        }
+         /*.fade-leave-active below version 2.1.8*/
+        .slide-fade-enter-active {
+            transition: all .3s ease;
+        }
+        .slide-fade-leave-active {
+            transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+        }
+        .slide-fade-enter, .slide-fade-leave-to
+        /* .slide-fade-leave-active for below version 2.1.8 */ {
+            transform: translateX(10px);
+            opacity: 0;
+        }
+
+        .slide-fade-move {
+            transition: transform 1s;
+        }
+
+    </style>
+</head>
+<!--在进入/离开的过渡transition中，会有6个class切换。
+1.v-enter-from：定义进入过渡的开始状态。在元素被插入之前生效，在元素被插入之后的下一帧移除
+2.v-enter-active：定义进入过渡生效时的状态。在整个进入过渡的阶段中应用，在元素被插入之前生效，在过渡/动画完成之后移除。这个类可以被用来定义进入过渡的过程时间，延迟和曲线函数
+3.v-enter-to：定义进入过渡的结束状态。在元素被插入之后下一帧生效（与此同时v-enter-from被移除），在过渡/动画完成之后移除
+4.v-leave-from：定义离开过渡的开始状态。在离开过渡被触发时立刻生效，下一帧被移除
+5.v-leave-active：定义离开过渡生效时的状态。在整个离开过渡的阶段中应用，在离开过渡被触发时立刻生效，在过渡/动画完成之后移除。这个类可以被用来定义离开过渡的过程时间，延迟和曲线函数
+6.v-leave-to：离开过渡的结束状态。在离开过渡被触发之后下一帧生效（与此同时v-leave-from被删除），在过渡/动画完成之后移除
+-->
+<body>
+    <div id="app602">
+<!-- transition 转变，过渡。transition 标签：Vue 的内置动画标签.
+    作用：在 [插入] / [更新] / [移除] DOM 元素时，在合适的时候给元素添加样式类名（配合 CSS 样式使用，实现动画效果）
+    注意事项. transition 标签只能包含 1 个 元素；如果里面写了多个元素，则只生效第一个. -->
+        <transition name="slide-fade">
+             <h1 v-if='show'>
+                {{obj}}
+            </h1>
+        </transition>       
+        <button @click='show=!show'>show</button>
+        <!-- 只有删除有过滤动画
+        <ul>
+            <transition  name="fade" v-for='(item, i) in list'>             
+                <li>
+                    {{item}}
+                    <button @click='moveUp(i)' :disabled='i===0'>☝</button>
+                    <button @click='moveDown(i)' :disabled='i===list.length-1'>👇</button>
+                    <button @click='list.splice(i,1)'>❎</button>
+                </li>        
+            </transition> 
+        </ul>  
+    -->
+        <hr><hr>
+
+        <transition-group  name="slide-fade" tag='ul'>       
+            <li  v-for='(item, i) in list' :key='item.id'>
+                {{item.name}}
+                <button @click='moveUp(i)' :disabled='i===0'>☝</button>
+                <button @click='moveDown(i)' :disabled='i===list.length-1'>👇</button>
+                <button @click='list.splice(i,1)'>❎</button>
+            </li>     
+        </transition-group> 
+
+    </div>
+
+
+
+    <!-- <script src="http://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.js"></script> -->
+   
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <script>
+        new Vue({
+            el: "#app602",
+             mounted() {
+               // console.log(this.obj)
+                //this.obj.age = 20  //这种方式不是响应式
+                //响应式属性可以这样写：
+                this.$set(this.obj, 'age', 20)
+                console.log(this.obj)
+
+                this.list.push('user-5')
+            },
+            methods: {
+                moveUp(i) {
+                    let prev = this.list[i - 1]
+                    //this.list[i - 1] = this.list[i]
+                    //this.list[i] = prev
+                    this.$set(this.list, i-1, this.list[i])
+                    this.$set(this.list, i, prev)
+                },
+                moveDown(i) {
+                    //方法1
+                   // this.list.splice(i, 0, this.list.splice(i - 1, 1)[0])
+                    //方法2
+                    let next = this.list[i + 1]
+                    //this.list[i + 1] = this.list[i]
+                    //this.list[i] = prev
+                    this.$set(this.list, i+1, this.list[i])
+                    this.$set(this.list, i, next)
+                }
+            },
+            data() {
+                return {
+                    obj: {name: "Simba"},
+                    show: false,
+
+                    /*list: [
+                        'user-1',
+                        'user-2',
+                        'user-3',
+                        'user-4',
+                    ],*/
+                    list:[
+                        {id: 1, name: 'user-1'},
+                        {id: 2, name: 'user-2'},
+                        {id: 3, name: 'user-3'},
+                        {id: 4, name: 'user-4'},
+                        
+                    ]                  
+                }
+            },
+           
+        })
+    </script>
+</body>
+</html>

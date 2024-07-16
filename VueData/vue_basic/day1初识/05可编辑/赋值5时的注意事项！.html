@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        有
+    </div>
+    <script src="http://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.js"></script>
+    <script>
+
+            let a = 10
+            b = a
+            a = 20//b不会随a改变，
+            b = 30//a不会随b改变，
+            console.log(a,b);//a=20,b=30
+
+
+            //引用类型    当它赋值的时候，是将内春地址克隆了一份
+            let c = {age:15 }
+            let d = c
+            c.age = 11
+            d.age = 50 
+            console.log(c,d)//c，d中age都会随之改变c.age=50,d.age=50
+
+
+            let e ={age2: 10}
+            let f = e
+            f ={//e中的age2不会随之改变,变f
+                age2:100
+            }
+            console.log(e,f)//e.age2=10,f.age2=100
+
+
+
+            //浅克隆（拷贝）的问题：
+            //浅克隆,第一层不会变，更深层的改掉了
+            let aa = {
+                a1:1,
+                b1:2,
+                znn:{
+                    fff: 20
+                }
+            }
+            let zz = Object.assign({},aa)//浅克隆
+            zz.b1 = 1111
+            zz.znn.fff = 222
+            console.log(aa);//fff发生变化，b1不发生变化,znn.fff=222,b1=2
+
+            //js完成一个：深克隆（拷贝）
+
+
+
+        new Vue({
+            el: "#app",
+            data() {
+                return {
+
+                }
+            },
+            method: {
+
+            }
+        })
+    </script>
+</body>
+</html>

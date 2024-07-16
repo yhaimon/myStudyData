@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04_el与data的两种写法</title>
+     <!--引入Vue-->
+     <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 准备一个容器-->
+    <div id="root">
+        <h1>你好,{{name}}</h1>
+    </div>
+
+    <script type="text/javascript">
+        Vue.config.productionTip  = false  //阻止 vue 在启动时生成生产提示。
+        
+        //el的两种写法
+        /*
+        const v = new Vue({
+            //el: '#root',   //第一种写法
+            data: {
+            name: 'yhaimon'
+            }
+        })
+        console.log("输出vue实例对象\n",v)
+        
+        //v.$mount(挂载,放)也可以指定容器(这种方式比较灵活)
+        v.$mount("#root")  //第二种写法
+        //如
+        // setTimeout(() => {
+        //     v.$mount('#root')
+        // },3000);//多少秒之后指定容器显示数据
+        */
+
+        //data的两种写法      
+        new Vue({
+            el: '#root',
+            //data的第一种写法:对象式               
+            /* data: {
+            name: 'yhaimon'
+            } */
+
+            //data的第二种写法:函数式
+            data:function() {
+                console.log("aaaa",this)  //此处的this是Vue实例对象
+                return {
+                    name: 'yhaimon'
+                }
+            }
+        })
+        
+        
+
+    </script>
+</body>
+</html>

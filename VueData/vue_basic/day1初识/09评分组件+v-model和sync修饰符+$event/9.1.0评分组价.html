@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <!-- <link rel="stylesheet" href="./at.alicdn.com/t/c/font_4305246_6a9zkd0njth.css"> -->
+    <link rel="stylesheet" href="./iconfont.css">
+</head>
+<body>
+    <div id="app901">
+        <h1>score:{{score}}----bak_score:{{bak_score}}</h1>
+        <i class="iconfont" :class='item <= score ? "icon-shoucang" : "icon-shoucang1" ' 
+         @mouseenter='score=item'
+         @mouseleave='score=bak_score' 
+         @click="bak_score=item" v-for="item in count"></i>
+    </div>
+    <script src="../../js/vue.js"></script>
+    <script>
+        //局部
+        new Vue({
+            el: "#app901",
+            data() {
+                return {
+                    count: 5,
+                    score:3,
+                    bak_score: 0
+                }
+            },
+        })
+    </script>
+</body>
+</html>

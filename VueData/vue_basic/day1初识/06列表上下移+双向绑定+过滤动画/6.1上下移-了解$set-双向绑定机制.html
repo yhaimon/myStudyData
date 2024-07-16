@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app61">
+        {{obj}}
+        <ul>
+            <li v-for="(item,i) in list">
+                {{item}}
+                <button @click='moveUp(i)' :disabled='i===0'>☝</button>
+                <button @click='moveDown(i)' :disabled='i===list.length-1'>👇</button>
+            </li>
+            </li>
+        </ul>
+    </div>
+    <!-- <script src="http://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.js"></script> -->
+   
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <script>
+        new Vue({
+            el: "#app61",
+             mounted() {
+               // console.log(this.obj)
+                //this.obj.age = 20  //这种方式不是响应式
+                //响应式属性可以这样写：
+                this.$set(this.obj, 'age', 20)
+                console.log(this.obj)
+
+                this.list.push('user-5')
+            },
+            methods: {
+                moveUp(i) {
+                    let prev = this.list[i - 1]
+                    //this.list[i - 1] = this.list[i]
+                    //this.list[i] = prev
+                    this.$set(this.list, i-1, this.list[i])
+                    this.$set(this.list, i, prev)
+                },
+                moveDown(i) {
+                    //方法1
+                    this.list.splice(i, 0, this.list.splice(i - 1, 1)[0])
+                    //方法2
+                    let next = this.list[i + 1]
+                    //this.list[i + 1] = this.list[i]
+                    //this.list[i] = prev
+                    this.$set(this.list, i+1, this.list[i])
+                    this.$set(this.list, i, next)
+                }
+            },
+            data() {
+                return {
+                    obj: { age: 10},
+                    list: [
+                        'user-1',
+                        'user-2',
+                        'user-3',
+                        'user-4',
+                    ]                   
+                }
+            },
+           
+        })
+    </script>
+</body>
+</html>

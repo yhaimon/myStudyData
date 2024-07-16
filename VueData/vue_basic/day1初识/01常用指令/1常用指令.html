@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>初识vue</title>
+		<style>
+			[v-cloak] {
+				display: none;
+			}
+		</style>
+				
+	</head>
+	<body>
+		<h3>Vue常用指令：</h3>
+		<h4>v-model、v-for、v-if、v-show、v-on、v-bind</h4>
+		<hr><hr>
+		<div id="app" v-cloak>
+			{{a+1}}	
+			<p>v-model将a的值给了文本框的value，同时监听文本框的输入时事件，输入时改变a:</p>
+			<input type="text" v-model='a'>a<br><hr>
+			
+			{{b+2}}<!-- 在没有定义v-model.number前：运行是20，重新输入结果是拼接数  这是文本框的原因，定义之后变成数字自动加10-->
+			<p>v-model.number修饰符，把文本框内容变为数字型:</p>
+			<input type="text" v-model.number='b'>b <br><hr>
+			
+			{{c+3}}
+			<p><span style="color: red; font-size: large;">不太理解:</span>v-model.number.trim去空格使用</p>
+			<input type="text" v-model.number.trim='c'>c<br><hr>
+			
+			{{d+4}}
+			<p>v-model.lazy不会及时更新数据,文本框失去焦点时，blur事件触发更新</p>
+			<input type="text" v-model.lazy='d'>d <input type="text" v-model.trim='d'>d<br><hr>
+			输出数组arr：
+			{{arr}}
+			<br>
+			
+			<ul>
+				<!-- arr的length有多少，就会生成多少个li,其中i是它的下标 -->
+				<li v-for='(item,i) in arr' :class='{zzz : i%2===0}' :style="{color: (i%2===0 ? 'red' : 'green')}" ><!-- 传统属性：style="color: red;" -->
+					<!-- {{i}}.<a v-bind:href="'detail.html?id='+item">{{item}}</a> -->
+					<!-- 也可以这样写 -->
+					{{i}}.<a v-bind:href="`detail.html?id=${item}`">{{item}}</a>
+					<!-- {{i}}.<a :href="`detail.html?id=${item}`">{{item}}</a> --><!-- 简写静态：href -->
+				<!-- 	<img :src="str" alt="加载失败"> -->
+				</li>	
+			</ul>
+			
+			<hr><hr><hr>
+			
+			<p>控制隐藏v-show，若为true，则显示 </p>
+			<h2 v-show="true">v-show为true显示</h2>
+			<p>2>1为真,1===1、a、222为真</p>
+			<h2 v-show="2>1">v-show为true显示</h2>
+			
+			<p >控制隐藏v-show，若为false，则隐藏。相当于style="display:none";</p>
+			<h2 v-show="false">v-show为false隐藏</h2>
+			<p>2<1、null、undefined、0、!a为假</p>
+			<h2 v-show="2<1">v-show为false隐藏</h2>
+			
+			<br><br>
+			<p>(v-show属性)button使用v-on:click='change'调用change方法，切换显示隐藏标h2</p>
+			<h2 v-show='sho_w'>使用变量sho_w，默认为true，显示，切换后不显示<h2>
+			<h2 v-show='!sho_w'>!sho_w隐藏，切换后显示</h2>
+			<button v-on:click='change1'>切换</button>
+			<p>简写v-on:click为:<span style="color: mediumvioletred;">@click='change1'</span>：</p>
+			<button @click='change1'>切换</button>
+			<p>如果只有一行+只切换一次的话还可以简写成:<span style="color: mediumvioletred;">@click.once='sho_w = !sho_w'</span>：</p>
+			<button @click.once='sho_w = !sho_w'>切换</button>
+			
+			<hr>
+
+			<p>v-if如果值为true，则创建标签，否则删除标签
+			<span style="color: springgreen; font-size: large;">创建和删除标签比较消耗浏览器内存,所以如果是频繁的显示切换，用v-show,只操作一次使用v-if</span></p>
+			<h2 v-if="true">v-if显示标签</h2>
+			<h2 v-if="true">v-if删除标签</h2>
+			
+			<br><br>
+			<p>(v-if属性)button使用v-on:click='change'调用change方法，切换为true创建标签并显示，false则删除标签</p>
+			<h2 v-if='show_if'>使用变量show_if，默认为true，显示，切换后为false删除标签<h2>
+			<h2 v-if='!show_if'>!show_if隐藏，切换后创建标签并显示</h2>
+			<button v-on:click='change2'>切换</button>
+			
+			<hr>
+			<hr>
+			<p>@keydown键盘事件，当用户按下键盘上的任意按键时触发,如果按住不放,会重复触发此事件。</p>
+			<input type="text" v-model.number='f' @keydown='tes_t'>f
+			<p>也可简写成@keydown.13意思是键盘事件满足13（回车）/enter/esc就触发事件alert:
+			tes_t2(e){alert("确定")},
+			</p>
+			<input type="text" v-model.number='f' @keydown.13='tes_t2'>f
+			
+			
+			<hr><hr>
+			<h2>冷门指令：v-test、v-html</h2>
+			<p>显示普通字符串：</p>
+			<h1 v-text='st_r'></h1>
+			<p>显示普通字符串：</p>
+			<h1>{{st_r}}</h1>
+			<p>显示渲染结果：</p>
+			<h1 v-html='st_r'></h1>
+			<p>只会绑定一次，不监听后续的变化，通常用于值渲染一次的场景，如首页的各种列表</p>
+			<h1 v-once>c:{{c}}</h1>
+			
+			<hr>
+			<p>v-red自定义指令</p>
+			<h1 v-red>{{age}}</h1>
+			<p>v-color='color1'自定义指令</p>
+			<h1 v-color='color1'>{{age}}</h1>
+			
+		</div>
+		<hr><hr><hr><hr><hr>
+		<div id="app2">
+			<h1 v-color2>是否可以使用到app1中的局部自定义指令</h1>
+		</div>
+		
+		<script type="text/javascript" src="../../js/vue.js"></script>
+		<script>
+			//(全局)创建一个自定义的指令Vue.directive(id,[definition])	v-red,({写一个函数})
+				Vue.directive('red',(el,data)=> {//data也可以写成binding
+					console.log(data);
+					//console.log(el);//el在控制台输出的是一个标签对象：<h1>10</h1>
+					el.style.color = 'green';
+				})
+				Vue.directive('color',(el,data)=> {//data也可以写成binding
+					console.log(data);
+					console.log(data.value);
+					console.log("当局部同名的自定义指令使用后，全局的将失去效果");
+					//console.log(el);//el在控制台输出的是一个标签对象：<h1>10</h1>
+					el.style.color = 'blue';
+				})
+				setTimeout( () => {
+					
+				}, 20000);
+			
+			new Vue({
+				el: "#app",/* el为element */
+				
+				directives:{//这是一个局部自定义指令,使用了局部自定义，全局的就会失效
+					color:(el,data) => {
+						console.log("局部自定义指令使用，全局失去效果");
+						el.style.color = data.value;
+					}
+				}, 
+				data(){
+					return{
+						color1: 'blue',
+						sho_w: true,/* 定义一个显示变量，默认为true显示 */
+						show_if: true,/* 定义一个显示变量，默认为true显示 */
+						a: 0,
+						b: 1,
+						c: 2,
+						d: 3,
+						age: 10,
+						f: 0,
+						st_r:"<button>hahahha</button>",
+						arr: [11, 22, 33,44]
+					}
+				},
+				methods: {
+					change1() {
+						this.sho_w = !this.sho_w/* 如果为true，则变为false；如果为false，则变为ture */
+					},
+					change2() {
+						this.show_if = !this.show_if
+					},
+					tes_t(e){
+						//console.log(111);//每操作（增加或删除）一次会在后台打印一个111
+						console.log(e.keyCode);//打印出键盘输出的
+						 if(e.keyCode===13)//13是回车键
+							alert("确定") 
+					},
+					tes_t2(e){//简写
+							alert("确定")
+					},
+				},
+			})
+			
+			
+		 	new Vue({
+				el:"#app",
+				data(){
+					return{
+						color2: 'pink'
+					}
+				},
+			}) 
+		</script>
+		
+		
+	</body>
+</html>

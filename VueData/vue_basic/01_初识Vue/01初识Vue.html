@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01初识Vue</title>
+    <!--引入Vue-->
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        初识Vue:
+        1.想让Vue工作，就必须创建一个Vue实例，且要传入一个配置对象：
+        2.root容器里面的代码依然符合html规范，只不过混入了一些特殊的Vue语法：
+        3.root容器里的diamagnetic被称为【Vue模板】；
+        4.Vue实例和容器是一一对应的:
+        5.真实开发中只有一个Vue实例，并且会配合着组件一起使用:
+        6.{{xxx}}中的xxx要写js表达式，且xxx可以自动读取到data中的所有属性:
+        7.一日data中的数据发生改变，那么页面中用到该数据的地方也会自动更新;
+        
+        注意区分：js表达式 和 js代码（语句）
+            1.表达式：一个表达式会生成一个值，可以放在任何一个需要值的地方：
+               
+                (1).    a
+                (2).    a+b
+                (3).    domo(1)
+                (4).    x === y ? 'a' : 'b'
+            
+            2.js代码（语句）
+                (1).    if(){}
+                (2).    for(){}
+    -->
+
+
+    <!-- 准备一个容器-->
+    <div id="demo">
+        <h1>Hello·{{age}}岁的{{name.toUpperCase()}}在{{address}}学Vue</h1>
+        <hr>  
+ 
+    </div>
+    <!-- 笔记 -->      
+    <div style="background-color: bisque; width: 50%; height: auto;">
+    <h3>支持表达式写法:{{1+1}},{{Date.now()}}</h3>
+    <h3>不支持写法：{ {写了一个data中没有定义的变量 } }</h3>
+    <h5 style="color: red;">
+        初识Vue:
+        <br/>1.想让Vue工作，就必须创建一个Vue实例，且要传入一个配置对象：
+        <br/>2.root容器里面的代码依然符合html规范，只不过混入了一些特殊的Vue语法：
+        <br/>3.root容器里的diamagnetic被称为【Vue模板】；
+        <br/>4.Vue实例和容器是一一对应的:
+        <br/>5.真实开发中只有一个Vue实例，并且会配合着组件一起使用:
+        <br/>6.{{xxx}}中的xxx要写js表达式，且xxx可以自动读取到data中的所有属性:
+        <br/>7.日data中的数据发生改变，那么页面中用到该数据的地方也会自动更新;
+        <br/>
+        <br/>注意区分：js表达式 和 js代码（语句）
+        <br/>    1.表达式：一个表达式会生成一个值，可以放在任何一个需要值的地方：
+        <br/>       
+        <br/>        (1).    a
+        <br/>        (2).    a+b
+        <br/>        (3).    domo(1)
+        <br/>        (4).    x === y ? 'a' : 'b'
+        <br/>    
+        <br/>    2.js代码（语句）
+        <br/>        (1).    if(){}
+        <br/>        (2).    for(){}
+    </h5>
+    </div>
+    <script type="text/javascript">
+        Vue.config.productionTip  = false   //阻止 vue 在启动时生成生产提示。
+
+        //1.创建Vue实例  const x = new Vue({})
+        new Vue({
+            el: '#demo', //document.getElementById('root')  //el用于指定当前Vue实例为哪个容器服务，值通常为css选择器字符串。
+            data:{
+                name: 'amon',
+                address: '江西',
+                age:'21'
+            }
+        })
+        
+    </script>
+    
+</body>
+</html>

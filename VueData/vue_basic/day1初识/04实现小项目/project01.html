@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目1</title>
+</head>
+<body>
+    <div id="app">
+        <div><!--label的for定义作用是当点击里面的元素时高亮显示 -->
+            <label for="title">
+                标题
+                <input type="text" id="title" v-model="title">
+                {{title}}
+            </label>
+        </div>
+        <div>
+            <label>
+                题型
+            </label>
+            <p style="color: red;">name名字一样在type='radio'中的作用：让单选按钮互斥不多选</p>
+            <label for="radio">
+                <input id="radio" name='type' v-model='type' :value='1' type="radio">单选
+            </label>
+            <label for="check">
+                <input id="check"name='type' v-model='type' :value='2'  type="radio">多选
+            </label>
+            <label for="judge">
+                <input  id="judge" name='type' v-model='type' :value='3' type="radio">判断
+            </label>
+            <label for="cloze">
+                <input id="cloze" name='type' v-model='type' :value='4' type="radio">填空
+            </label>
+            <label for="answer">
+                <input id="answer" name='type' :value='5'   type="radio">简答
+            </label>
+        </div>
+        {{type}}
+        <br>
+        
+        <div v-if='isXZT'>
+            <label>
+                选项：
+            </label>
+            <ul>
+                <li> A.<input id="radio" name="type" type="text"></li>
+                <li> B.<input id="checkbox" name="type" type="text"></li>
+                <li> C.<input  id="judge" name="type" type="text"></li>
+                <li> D.<input id="cloze" name="type" type="text"></li>
+            </ul>
+        </div>     
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.js"></script>
+    <!-- <script src="../../js/vue.js"></script> -->
+    <script>
+        new Vue({
+            el: "#app",
+            data(){
+                return {
+                    title: '',
+                    type: 3
+                }
+            },
+            computed:{
+                isXZT(){
+                    return this.type ===2 || this.type === 1
+                },
+            }
+        })
+    </script>
+
+</body>
+</html>

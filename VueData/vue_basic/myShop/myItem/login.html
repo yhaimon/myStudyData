@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录页面</title>
+    <style type="text/css">
+        body{
+            background-image: url("../imgs/login.png");
+        }
+        .loginInfo{
+            width: 780px;
+            height: 600px;
+            margin: 400px auto;
+            background-color: #d6dbe7;
+            border-image-width: 80%;
+            border-radius: 10%;
+            text-align: center;
+        }
+        /* .flex {
+            display: flex;
+        }
+        .j-c {
+            justify-content: center;    
+        }
+
+        .j-s {
+            justify-content: space-between;
+        } */
+    </style>
+</head>
+<body>
+    <div class="loginInfo">
+        <div class="">
+            <caption>登录</caption><br>
+            用户名：<input type="text">
+            <br>
+            密码：<input type="password">  
+        </div>
+       
+    </div>
+
+    <script src="../../myShop/js/vue.js"></script>
+    <script>
+
+        new Vue({
+            el: "myLogin",
+            components: {
+                lgBtn: {
+                    template: `
+                        <button class='flex j-c a-c'>登录<button>
+                    `
+                }
+            },
+            data() {
+                return {
+
+                }
+            },
+        })
+
+    </script>
+</body>
+</html>

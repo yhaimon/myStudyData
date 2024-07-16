@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app" v-cloak>
+		<h3>男：</h3>
+		<p>筛选男：item in userList.filter(r => r.gender=="男")</p>
+        <ul>
+            <li v-for='item in userList.filter(r => r.gender=="男")'>
+				
+                {{item.id+item.name}}
+            </li>
+        </ul>
+		<h3>女：</h3>
+		<p>筛选女：item in userList.filter(r => r.gender=="女")</p>
+		<ul>
+			<li v-for='item in userList.filter(r => r.gender=="女")'>
+				{{item.id+item.name}}
+			</li>
+		        </ul>
+		<hr>
+        <hr>
+		<p>简写，为了在html中代码更直观：</p>
+		<h3>男：</h3>
+        <ul>
+            <li v-for='item in maleList'>
+                {{item.name}}-------{{item.gender | fmtGender}}
+            </li>  
+        </ul>
+		<h3>女：</h3>
+		<ul>
+		    <li v-for='item in femaleList'>
+		        {{item.name}}-------{{item.gender | fmtGender}}
+		    </li>  
+		</ul>
+		
+		<hr>
+		{{price}}----[price/6.7]=
+		{{price / 6.7}}
+		<p>使用调用方法&nbsp;{price_us返回结果}&nbsp;方式：</p>
+		{{price_us | fmtMoney}}#使用的过滤器:保留两位小数
+		<hr>
+		
+		<hr>
+        <p>:disabled='count<=1'定义按钮加不超过5，减不低于1：</p>
+        <button @click='count--' :disabled='count<=1'>-</button>
+        {{count}}
+        <button @click='count++' :disabled='count>=5'>+</button>
+        <p>数据不安全的按钮，如果再次重复只用count定义值，会直接影响count</p>
+        <p style="color: red">但是我们使用了监听器就不会超过count值的范围[1,5]了</p>
+        <button @click='count=88'>不安全</button>
+        
+        <hr>
+        <hr>
+        <input type="text" v-model="keywords">
+    </div>
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.js"></script> -->
+	<script src="../../js/vue.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            //监听器：控制count值的区间不被不在该区间的值改变
+            watch:{
+                count(val){
+                    if(val <= 1) val = 1
+                    else if (val >= 5) val = 5
+                    this.count = val
+                },
+            //监听搜索框
+                keywords(val){
+                    console.log('去后台搜索'+val);
+                }
+            },
+
+			//过滤器
+			filters: {
+                fmtMoney(val){
+                    return val.toFixed(2)//只保留两位小数
+                },
+				fmtGender(val) {
+				//1.过滤方式1
+                    //if(val === 1) return '女'
+					//else if(val === 0) return '男'
+                    //return '未知'
+                //2.过滤方式2
+					/*
+                    let arr = ['男' , '女']
+                    if(arr[val])		
+					    return arr[val]
+                    else
+                        return '未知'  
+                     */
+                //3.过滤方式3
+                    return ['男' , '女'][val] || '未知'
+				}
+			},
+			//利用已有的数据生成新的变量，和data中的属性一样可以被this获取
+			//可以简化页面模板
+			//如果数据是重复的，则可以自动缓存
+            computed: {
+                maleList(){
+                    return this.userList.filter(r => r.gender === 0)
+                },
+				
+                femaleList(){
+                    return this.userList.filter(r => r.gender === 1)
+                },
+				
+				price_us(){
+					return this.price/6.7
+				},
+            },
+            data(){
+                return{
+                    keywords: "",
+                    count: 1,
+					price: 1000,
+                    userList:[
+                        {
+                            id: 1,
+                            name: "何先生",
+                            gender: 0
+                        },
+                        {
+                            id: 2,
+                            name: "何女士",
+                            gender: 1 
+                        },
+                        {
+                            id: 3,
+                            name: "环先生",
+                            gender: 0
+                        },
+                        {
+                            id: 4,
+                            name: "刘女士",
+                            gender: 1 
+                        },
+                    ],
+                }
+            }
+        })
+    </script>
+</body>
+</html>

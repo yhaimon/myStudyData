@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app" v-cloak>
+		<h3>男：</h3>
+		<p>筛选男：item in userList.filter(r => r.gender=="男")</p>
+        <ul>
+            <li v-for='item in userList.filter(r => r.gender=="男")'>
+				
+                {{item.id+item.name}}
+            </li>
+        </ul>
+		<h3>女：</h3>
+		<p>筛选女：item in userList.filter(r => r.gender=="女")</p>
+		<ul>
+			<li v-for='item in userList.filter(r => r.gender=="女")'>
+				{{item.id+item.name}}
+			</li>
+		        </ul>
+		<hr>
+		<hr>
+		{{price}}----[price/6.7]=
+		{{price / 6.7}}
+		<p>使用调用方法&nbsp;{price_us返回结果}&nbsp;方式：</p>
+		{{price_us}}
+		<hr>
+		
+		<hr>
+        
+    </div>
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.js"></script> -->
+	<script src="../../js/vue.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+			//过滤器
+			filters: {
+				fmtGender(val) {
+					if(val === 0) return '女'
+					else if(val === 1) return '男'
+					return '未知'
+				}
+			},
+			//利用已有的数据生成新的变量，和data中的属性一样可以被this获取
+			//可以简化页面模板
+			//如果数据是重复的，则可以自动缓存
+            computed: {
+                maleList(){
+                    return this.userList.filter(r => r.gender === "男")
+                },
+				
+                femaleList(){
+                    return this.userList.filter(r => r.gender === "女")
+                },
+				
+				price_us(){
+					return this.price/6.7
+				},
+            },
+            data(){
+                return{
+					price: 1000,
+                    userList:[
+                        {
+                            id: 1,
+                            name: "何先生",
+                            gender: "男"
+                        },
+                        {
+                            id: 2,
+                            name: "何女士",
+                            gender: "女" 
+                        },
+                        {
+                            id: 3,
+                            name: "环先生",
+                            gender: "男"
+                        },
+                        {
+                            id: 4,
+                            name: "刘女士",
+                            gender: "女" 
+                        },
+                    ],
+                }
+            }
+        })
+    </script>
+</body>
+</html>

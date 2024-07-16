@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_数据绑定</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- 
+        Vue中有2种数据绑定的方式:
+            1.单向绑定(v-bind):数据只能从data流向页面。
+            2.双向绑定(v-mode1):数据不仅能从data流向页面，还可以从页面流向data。
+            备注:
+                1.双向绑定一般都应用在表单类元素上(如:input、select等)
+                2.v-model:value= 可以简写为v-model=，因为v-model默认收集的就是value值。
+ -->
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <!-- 普通写法 -->
+        <!-- 单项数据绑定v-bind：<input type="text" v-bind:value="name" /><br/>
+        双项数据绑定v-model：<input type="text" v-model:value="name" /> -->
+        <!-- 简单写(加上label for和下面的input id名字对应,在edge浏览器就不会报错, 不写的话在谷歌浏览器和火狐浏览器不会报错) -->
+        <label for="aaa">单项数据绑定v-bind：</label><input id="aaa" type="text" :value="name" /><br/>
+        双项数据绑定v-model：<input type="text" v-model="name" /><br/>
+        
+        <hr/>
+        <!-- 如下代码是错误的，因为v-model只能应用在表单类元素上(输入类元素)  -->
+        <h4 style="color: red;">
+            如下代码是错误的，因为v-model只能应用在表单类元素上(输入类元素)                
+        </h4><br/>        
+        <!-- <h2 v-model:x="name">你好</h2> -->
+    </div>
+    <div style="background-color: bisque; width: 50%; height: auto;">
+        <h5 style="color: red;">
+            <br>1.单向绑定(v-bind):数据只能从data流向页面。
+            <br>2.双向绑定(v-mode1):数据不仅能从data流向页面，还可以从页面流向data。
+            <br>备注:
+            <br>    ——1.双向绑定一般都应用在表单类元素上(如:input、select等)
+            <br>    ——2.v-model:value 可以简写为v-model，因为v-model默认收集的就是value值。
+        </h5>       
+    </div>
+    
+    
+    <script type="text/javascript">
+        Vue.config.productionTip = false
+
+        new Vue({
+            el: '#root',
+            data:{
+                name:'yhaimon'
+            }
+        })
+    </script>
+</body>
+</html>

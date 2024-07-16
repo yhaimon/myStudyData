@@ -1,0 +1,114 @@
+# 导包
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+import numpy as np
+from pylab import mpl
+# 设置显示中文字体
+mpl.rcParams["font.sans-serif"] = ["SimHei"]
+# 设置正常显示符号
+mpl.rcParams["axes.unicode_minus"] = False
+
+=================================
+在 Matplotlib 中，plt.subplots() 函数用于创建一个新的图形，并返回一个 NumPy 数组，该数组包含创建的子图（axes）。这个函数非常有用，特别是当你需要创建具有复杂布局的图形时，比如网格布局。
+
+=================================
+图表类型
+
+Matplotlib 的 pyplot 模块提供了多种绘图类型，可以用于绘制各种统计图表、函数图形、三维图形等。以下是一些常用的绘图类型：
+
+折线图 (Line Plot) - plt.plot()
+用于绘制连续的数据点连接成的线条。
+
+散点图 (Scatter Plot) - plt.scatter()
+用于绘制数据点在坐标系中的分布。
+
+条形图 (Bar Chart) - plt.bar()
+用于显示各个类别的数据量。
+
+水平条形图 (Horizontal Bar Chart) - plt.barh()
+条形图的水平版本。
+
+直方图 (Histogram) - plt.hist()
+用于显示数据分布的柱状图。
+
+填充直方图 (Filled Histogram) - plt.hist() with histtype='stepfilled'
+用于显示数据分布的填充柱状图。
+
+散点图矩阵 (Scatter Plot Matrix) - plt.scatter_matrix()
+用于绘制多个变量的散点图矩阵。
+
+饼图 (Pie Chart) - plt.pie()
+用于显示每个部分占总量的百分比。
+
+堆叠条形图 (Stacked Bar Chart) - plt.bar() with bottom 参数
+用于显示各部分对总量的贡献。
+
+面积图 (Area Chart) - plt.fill()
+用于显示数据量随时间的变化。
+
+步进图 (Step Plot) - plt.step()
+用于显示数据点之间的步进关系。
+
+误差条形图 (Error Bar Plot) - plt.errorbar()
+用于显示数据的误差范围。
+
+蜘蛛图 (Spider Chart) - plt.spider()
+用于显示多个定量变量的数据。
+
+热力图 (Heatmap) - plt.imshow()
+用于显示矩阵数据的颜色编码。
+
+树状图 (Treemap) - plt.treemap()
+用于显示嵌套的数据集。
+
+三维图形 (3D Plots) - mpl_toolkits.mplot3d 中的函数
+用于绘制三维空间中的图形，如线框图、散点图、曲面图等。
+
+等高线图 (Contour Plot) - plt.contour()
+用于显示三维函数数据的二维投影。
+
+填充等高线图 (Filled Contour Plot) - plt.contourf()
+等高线图的填充版本。
+
+箭头图 (Quiver Plot) - plt.quiver()
+用于显示向量场的箭头表示。
+
+极坐标图 (Polar Plot) - plt.polar()
+用于以极坐标形式绘制数据。
+====================================
+Seaborn 是一个基于 Matplotlib 的数据可视化库，它提供了一系列高级接口，用于制作更复杂、更美观的统计图形。Seaborn 与 Pandas 紧密集成，使得对 DataFrame 的操作更加直观。以下是 Seaborn 支持的一些主要图表类型：
+
+1. 分布图 (Distribution Plots)
+散点图 (scatterplot)：展示两个变量之间的关系。
+线图 (lineplot)：绘制连续数据点的线。
+条形图 (barplot)：展示分类变量的数值。
+
+2. 分类数据图 (Categorical Data Plots)
+点图 (stripplot)：类似散点图，但通常用于展示单个变量的分布。
+箱形图 (boxplot)：展示数据的分布，包括中位数、四分位数和异常值。
+小提琴图 (violinplot)：结合了箱形图和密度图的特点，展示数据分布的密度估计。
+
+3. 多变量图 (Multi-Variable Plots)
+成对关系图 (pairplot)：自动绘制 DataFrame 中每对数值变量之间的散点图。
+成对分布图 (pairplot)：与成对关系图类似，但使用不同图表展示变量之间的关系。
+
+4. 时间序列图 (Time Series Plots)
+时间序列图 (tsplot)：用于展示时间序列数据。
+
+5. 热力图 (Heatmap)
+热力图 (heatmap)：使用颜色展示矩阵数据中的值。
+
+6. 矩阵数据图 (Matrix Data Plots)
+矩阵图 (matrixplot)：用于展示矩阵数据的图形。
+
+7. 树形图 (Tree and Hierarchy Plots)
+树图 (treemap)：展示嵌套的数据结构，每个节点的大小表示数值的大小。
+树状图 (dendrogram)：展示数据的层次结构。
+
+8. 高级图 (Advanced Plots)
+螺旋图 (radviz)：用于展示多维数据。
+和图 (andrews_curves)：另一种展示多维数据的图形。
+
+9. 单元格图 (Facet Grids)
+Facet Grids：允许用户在不同的子图格中绘制相同的数据集，用于探索数据的子集。

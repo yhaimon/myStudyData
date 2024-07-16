@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目3</title>
+</head>
+<!--在项目二的基础上优化了：选项的增删、（答案符合题型，放在该放的选项里面）-->
+<body>
+    <div id="app">
+        <div><!--label的for定义作用是当点击里面的元素时高亮显示 -->
+            <label for="title">
+                标题
+                <input type="text" id="title" v-model="title">
+                {{title}}
+            </label>
+        </div>
+        <div>
+            <label>
+                题型
+            </label>
+            <p style="color: red;">
+                重复代码太多，考虑做优化：<span>考虑使用v-for循环</span>id只需要考虑不重复就好了，可以使用a0、a1、a2…… <span>考虑value使用下标0,1,2,3……</span>
+            </p>
+            <label :for='`type_${i}`' v-for='(item,i) in types'>
+                <input :id='`type_${i}`' name='type' v-model='type' :value='i' type="radio">
+                {{item}}
+            </label>
+    
+        </div>
+        <br>
+        
+        <div v-if='isXZT'>
+            <label>
+                选项：
+            </label>
+            <ul style="padding-left: 50px;">
+                <!-- 输出0，1，2，3的选项 -->
+                <li v-for="(item,i) in options">
+                   {{i | fmtOption}}
+                   <input type="input">
+                   <!-- splice(index, howmany) 方法用于添加或删除数组中的元素。
+                    注意：这种方法会改变原始数组。
+                    如果删除一个元素，则返回删除元素的数组。 如果未删除任何元素，则返回空数组。
+                        index:必需。规定从何处添加/删除元素。该参数是开始插入和（或）删除的数组元素的下标，必须是数字。
+                        howmany:可选。规定应该删除多少元素。必须是数字，但可以是 "0"。
+                                如果未规定此参数，则删除从 index 开始到原数组结尾的所有元素。
+                    -->
+                   <button @click="options.splice(i,1)">删除</button>
+                </li>
+            </ul>
+            <!-- push() 方法可向数组的末尾添加一个或多个元素，并返回新的长度。 -->
+            <button v-if='options.length < 10' @click='options.push("")'>添加选项</button>
+        </div>
+        <div v-if='isNotAnswer'>
+            <label>
+                答案：
+            </label>
+            <!-- 如果是type为0，显示单选按钮 -->
+            <div v-if='type===0'>
+                <label v-for="(item,i) in options">
+                    <input type="radio" name="answer">
+                    {{i | fmtOption}}
+                </label>
+            </div>
+            <!-- 如果是type为1，显示多选复选框 -->
+            <div v-if='type===1'>
+                <label v-for="(item,i) in options">
+                    <input type="checkbox">
+                    {{i | fmtOption}}
+                </label>
+            </div>
+            <div v-if='type===2'>
+                <label>
+                    <input type="radio">对
+                    <input type="radio">错
+                </label>
+            </div>
+        </div>
+        <div>
+            <label for="analysis">
+                解析：
+            </label>
+                <textarea type="text" id="analysis" v-model="analysis"></textarea>
+        </div>
+        <button @click='save'>保存提交</button>
+        
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.js"></script>
+    <!-- <script src="../../js/vue.js"></script> -->
+    <script>
+        //添加这两条语句，运行后，console控制台就会干净了,但是我的没用
+       Vue.config.devtools = false
+        Vue.config.productionTip = false
+        
+        new Vue({
+            el: "#app",
+            data(){
+                return {
+                    title: '',//标题
+                    type: 0,//题目类型下标
+                    types: ['单选题','多选题','判断题','简答题'],//题目类型一维数组
+                    analysis: "",//解析
+                    options: ['', '', '', ''],//选项，选择
+                }
+            },
+            filters: {
+                fmtOption(val){
+                    'ABCDFGHIJKLMN'
+                    return 'ABCDFGHIJKLMN'[val]
+                }
+            },
+            computed:{
+                isXZT(){
+                    //满足单选和多选的显示选项ABCD输入框
+                    return this.type ===0 || this.type === 1
+                },
+                isNotAnswer(){
+                    // type不能等于3，也就是简答题不显示答案
+                    return this.type !== 3
+                }
+            },
+
+            methods:{
+                save(){
+                    console.log(this.type, this.title, this.analysis, this.options)
+                }
+            }
+        })
+    </script>
+
+</body>
+</html>

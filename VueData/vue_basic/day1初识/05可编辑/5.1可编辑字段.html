@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    *{
+        margin: 0;/*外边距*/
+        padding: 0;/*内边距*/
+        list-style-type: none;/* 样式表示设置列表项标记的类型为空 */
+    }
+    li{
+        margin: 10px;
+    }
+
+    .flex{
+        display: flex;/*display:flex 是一种布局方式。它即可以应用于容器中，也可以应用于行内元素。*/
+        align-items: center;/* align-items 属性定义flex子项在flex容器的当前行的侧轴（纵轴）方向上的对齐方式。*/
+    }
+    .label{
+        width:50px;
+        text-align: right;/*对其方式:右对齐*/
+    }
+    /* :after 是写在css中 给标签之后增加新内容  如 p:after{  content:"增加文本";  color:#f00; font-weight:bold;   }
+　　2. ::after 是写在HTML中的 元素之后增加新内容 如 div::{content:"url(../img/1.jpg)"; background-color:"#ff0";}
+*/
+    .label::after {
+        content: '：';
+    }
+
+    /*属性选择器，当渲染没完成就隐藏  如：{{？}}，渲染之后显示页面内容*/
+    [v-cloak] {
+        display: none;
+    }
+</style>
+
+</head>
+<body>
+    <div id="app501" v-cloak>
+        <h1>{{bakName}}</h1>
+        <ul>
+            <li class="flex">
+                <div class="label">昵称</div>
+                <div class="content" >
+                    <div v-if='isEdit'>
+                        <input  type="text" v-model='name'>
+                        <button @click='confirm'>确定</button>
+                        <button @click='cancel'>取消</button>
+                    </div>
+                    
+                    <span v-else @dblclick='edit'>{{name}}</span>
+                    
+                </div>
+            </li>
+            
+        </ul>
+    </div>
+    
+    <script src="http://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.js"></script>
+    <script>
+        Vue.config.devtools = false
+        Vue.config.productionTip = false
+
+        setTimeout(() =>{
+
+            new Vue({
+                el: '#app501',
+                watch:{
+                    name(){
+                        console.log(this.name)
+                    }
+                },
+                data(){
+                    return{
+                        bakName: "",
+                        name: "张三",
+                        isEdit: false//true为显示input
+
+                    }
+                },
+                methods: {
+                    edit() {//双击事件，更改isEdit值，显示input
+                        //console.log(11);
+                        this.isEdit = true
+                        this.bakName = this.name//当双击事件时，把name赋值给bakName
+                    },
+                    confirm() {//确定按钮，显示值隐藏input
+                        this.isEdit = false
+                        this.bakName = '' //当确定时，备份bakNmae清空
+                    },
+                    cancel(){//取消按钮
+                        this.isEdit = false
+                        this.name = this.bakName////当取消时，把bakName赋值给name，意思是不改，要原数据
+                    }
+
+                }
+            })
+        },30);
+       
+    </script>
+</body>
+</html>

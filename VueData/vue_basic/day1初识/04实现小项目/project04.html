@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目4</title>
+</head>
+<!--在项目3的基础上，优化了:获取答案，单选和判断使用answer空字符串、多选使用answer空数组，方式不一样
+    进一步完善在控制台输出，提交的 大部分 内容-->
+<body>
+    <div id="app">
+        <div><!--label的for定义作用是当点击里面的元素时高亮显示 -->
+            <label for="title">
+                标题
+                <input type="text" id="title" v-model="subject.title">
+                {{subject.title}}
+            </label>
+        </div>
+        <div>
+            <label>
+                题型
+            </label>
+            <p style="color: red;">
+                重复代码太多，考虑做优化：<span>题型考虑使用v-for循环</span>id只需要考虑id不重复就好了，可以使用a0、a1、a2…… <span>考虑value使用下标0,1,2,3……</span>
+            </p>
+            <label :for='`type_${i}`' v-for='(item,i) in types'>
+                <input :id='`type_${i}`' name='type' v-model='subject.type' :value='i' type="radio">
+                {{item}}
+            </label>
+    
+        </div>
+        <br>
+        
+        <div v-if='isXZT'>
+            <label>
+                选项内容：
+            </label>
+            <ul style="padding-left: 50px;">
+                <!-- 输出0，1，2，3的选项 -->
+                <li v-for="(item,i) in subject.options">
+                   {{i | fmtOption}}
+                   
+                   <input type="input" v-model='item.tex_t'><!-- 在这里的v-model不允许直接为item,只能item.text等其他 -->
+                   <!-- splice(index, howmany) 方法用于添加或删除数组中的元素。
+                    注意：这种方法会改变原始数组。
+                    如果删除一个元素，则返回删除元素的数组。 如果未删除任何元素，则返回空数组。
+                        index:必需。规定从何处添加/删除元素。该参数是开始插入和（或）删除的数组元素的下标，必须是数字。
+                        howmany:可选。规定应该删除多少元素。必须是数字，但可以是 "0"。
+                                如果未规定此参数，则删除从 index 开始到原数组结尾的所有元素。
+                    -->
+                   <button @click="subject.options.splice(i,1)">删除</button>
+                </li>
+            </ul>
+            <!-- push() 方法可向数组的末尾添加一个或多个元素，并返回新的长度。@click='options.push("")' -->
+            <button v-if='subject.options.length < 10' @click='appendOption'>添加选项</button>
+        </div>
+        <div v-if='isNotAnswer'>
+            <label>
+                答案：
+            </label>
+            <!-- 如果是type为0，显示单选按钮 -->
+            <div v-if='subject.type===0'>
+                <label v-for="(item,i) in subject.options">
+                    <input type="radio" name="answer" :value='i | fmtOption' v-model='subject.answer'>
+                    {{i | fmtOption}}<!-- ABCD的便利输出，使用v-for控制（如果options有多少个元素，那么答案answer就有多少个）答案的个数-->
+                </label>
+            </div>
+            <!-- 如果是type为1，显示多选复选框 -->
+            <div v-if='subject.type===1'>
+                <label v-for="(item,i) in subject.options">
+                    <input type="checkbox" name="answer" :value='i | fmtOption' v-model='subject.answer'><!--复选框不能直接使用v-model='subject.answer',需要把answer改为数组，才支持多选-->
+                    {{i | fmtOption}}
+                </label>
+            </div>
+            <!-- 如果是type为2，显示判断单选按钮 -->
+            <div v-if='subject.type===2'>
+                <label>
+                    <input type="radio" name="answer" value='T' v-model='subject.answer'>对
+                    <input type="radio" name="answer" value='F' v-model='subject.answer'>错
+                </label>
+            </div>
+        </div>
+        <div>
+            <label for="analysis">
+                解析：
+            </label>
+                <textarea type="text" id="analysis" v-model="subject.analysis"></textarea>
+        </div>
+        <button @click='save'>保存提交</button>
+        
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.js"></script>
+    <!-- <script src="../../js/vue.js"></script> -->
+    <script>
+        //添加这两条语句，运行后，console控制台就会干净了,但是我的没用
+       Vue.config.devtools = false
+        Vue.config.productionTip = false
+        
+        new Vue({
+            el: "#app",
+            data(){
+                return {
+                    subject: {
+                        type: 0,//题目类型下标
+                        title: '',//标题   
+                        answer: '', //答案   
+                        analysis: "",//解析
+                        
+                        options: [//每个选项的内容，每添加一个选项，自动添加一个选项内容数组
+                            {tex_t: ""},
+                            {tex_t: ""},
+                            {tex_t: ""},
+                            {tex_t: ""},
+                        ],//选项，选择
+                    },
+                    types: ['单选题','多选题','判断题','简答题'],//题目类型一维数组  
+                }
+            },
+            watch: {
+                //题型切换时，
+                'subject.type'(val) {
+                    if (val ===1){//切成多选（1）就让answer为空数组（多选复选框 需要数组放多个答案）
+                        this.subject.answer = []
+                    }else{//否则如果是单选0 或 判断2，就让answer变成一个空字符串，
+                        this.subject.answer = ''
+                    }
+                }
+            },
+            filters: {
+                fmtOption(val){
+                    'ABCDEFGHIJKLMN'
+                    return 'ABCDEFGHIJKLMN'[val]
+                }
+            },
+            computed:{
+                isXZT(){
+                    //满足单选和多选的显示选项ABCD输入框
+                    return this.subject.type ===0 || this.subject.type === 1
+                },
+                isNotAnswer(){
+                    // type不能等于3，也就是简答题不显示答案
+                    return this.subject.type !== 3
+                }
+            },
+
+            methods:{
+                appendOption(){
+                    this.subject.options.push({tex_t: ""})
+                },
+                save(){
+                    console.log(JSON.stringify(this.subject))
+                    //console.log(this.subject.type, this.subject.title, this.subject.analysis, this.subject.options)
+                }
+            }
+        })
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+
+			.red{
+				background-color: red;
+				color: #fff;
+				border: none;
+			}
+			.green{
+				background-color: green;
+				color: #fff;
+				border: none;
+			}
+			.black{
+				background-color: black;
+				color: #fff;
+				border: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app801">
+
+			<!-- <zzz label="我是label" icon="我是icon">哈哈哈</zzz> -->
+			<!-- <zzz label="我是label" :icon="111">6666</zzz>会报错，因为限制了只能是String类型的数据,icon="111"是String字符型;  限定为number为  :icon="111"（加冒号 : ） -->
+			<zzz label="['a','b','c']" :icon=122></zzz>
+			
+				<zzz :icon="111"></zzz>没有填label就会是使用默认值
+			<hr>
+				
+			<btn></btn>
+			<btn type="danger">login</btn>
+			<btn type="success">login</btn>
+			<btn type="slifewo"></btn><br>因为限制了type类型必须是deft,danger,success,如果不满足这三个type中的一个，就会报错
+		
+
+	
+		</div>
+
+		<template id="temp"><!--写在div标签外面就可以隐藏这个标签，且zzz可以调用到这标签-->
+			<div>
+				{{label}}==={{icon}}
+			</div>
+		</template>
+
+
+		<!-- <script src="http://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.js"></script> -->
+		<script type="text/javascript" src="../../js/vue.js"></script>
+		<script>
+			Vue.component('btn',{
+				props: {//props小道具
+					type: {
+						type: String,
+						default: "deft",
+						validator(val) {//validator验证器，满足条件返回true，否则false
+							console.log(val);
+							return ['deft','danger','success'].includes(val)
+						}
+					}
+				},
+				template:`
+					<button :class="{black:type==='deft', red:type==='danger',green:type==='success'}">
+						<slot>login</slot>
+					</button>
+				`,
+			})
+			//props: ['label'] 相当于 function zzz(props){ this.props.label return 'template'}
+
+			//全局vue组件component
+			Vue.component('zzz', {
+				//props: ['label', 'icon'],
+				props: {
+					label: {
+						//type: String,
+						type: [String, Array],//String | Array
+						default: "默认值label"
+					},
+					icon: {
+						type: Number,
+						requeired: true //必传，否则报错
+					}
+				},
+				template: //template模板，样板。 ``翻译号//全局： 标签外面必须嵌套一个<div> <h1>1111</h1> </div>等，不可以直接使用标签
+					'#temp'
+			})
+
+
+			//局部vue
+			new Vue({
+				el: "#app801",
+				data() {
+					return {
+						list: {}
+					}
+				},
+			})
+		</script>
+	</body>
+</html>

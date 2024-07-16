@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app903">
+			<ul>
+                <li @click="test">11</li>
+                <li @click="test()">22</li>
+                <li v-for="item in list" @click='test($event,item)'>
+                    {{item}}
+                </li>
+            </ul>
+    </div>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <script>
+        var evt = new Event('zz');
+
+        window.addEventListener('zz', function(e){
+            console.log('zzzz', e);
+        })
+
+        setTimeout(()=> {
+            evt.detail = {age: 10}
+            window.dispatchEvent(evt)
+        },2000);
+        
+
+        //局部
+        new Vue({
+            el: "#app903",
+            data() {
+                return {
+                    list: ['aa','bb','cc']
+                }
+            },
+            methods: {
+                test(e,item) {
+                    console.log('test',e,item);
+                }
+            }
+        })
+
+    </script>
+</body>
+</html>

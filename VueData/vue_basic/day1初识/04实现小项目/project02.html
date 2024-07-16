@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目2</title>
+</head>
+<!--在项目一的基础上优化了，题目类型的遍历v-for。增加了选项和答案的必有元素-->
+<body>
+    <div id="app">
+        <div><!--label的for定义作用是当点击里面的元素时高亮显示 -->
+            <label for="title">
+                标题
+                <input type="text" id="title" v-model="title">
+                {{title}}
+            </label>
+        </div>
+        <div>
+            <label>
+                题型
+            </label>
+            <p style="color: red;">
+                重复代码太多，考虑做优化：<span>考虑使用v-for循环</span>id只需要考虑不重复就好了，可以使用a0、a1、a2…… <span>考虑value使用下标0,1,2,3……</span>
+            </p>
+            <label :for='`type_${i}`' v-for='(item,i) in types'>
+                <input :id='`type_${i}`' name='type' v-model='type' :value='i' type="radio">
+                {{item}}
+            </label>
+    
+        </div>
+        <br>
+        
+        <div v-if='isXZT'>
+            <label>
+                选项：
+            </label>
+            <ul style="padding-left: 50px;">
+                <li> A.<input type="input"></li>
+                <li> B.<input type="input"></li>
+                <li> C.<input type="input"></li>
+                <li> D.<input type="input"></li>
+            </ul>
+        </div>
+        <div v-if='isNotAnswer'>
+            <label>
+                答案：
+            </label>
+            <div v-if='type===0'>如果是type为0，显示单选按钮
+                <label>
+                    <input type="radio" name="radi_o">A
+                    <input type="radio" name="radi_o">B
+                    <input type="radio" name="radi_o">C
+                    <input type="radio" name="radi_o">D
+                </label>
+            </div>
+            <div v-if='type===1'>如果是type为1，显示多选复选框
+                <label>
+                    <input type="checkbox">A
+                    <input type="checkbox">B
+                    <input type="checkbox">C
+                    <input type="checkbox">D
+                </label>
+            </div>
+            <div v-if='type===2'>
+                <label>
+                    <input type="radio" name="type">对
+                    <input type="radio" name="type">错
+                </label>
+            </div>
+        </div>
+        <div>
+            <label for="analysis">
+                解析：
+            </label>
+                <textarea type="text" id="analysis" v-model="analysis"></textarea>
+        </div>
+        
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.js"></script>
+    <!-- <script src="../../js/vue.js"></script> -->
+    <script>
+        new Vue({
+            el: "#app",
+            data(){
+                return {
+                    title: '',//标题
+                    type: 0,//题目类型下标
+                    types: ['单选题','多选题','判断题','简答题'],//题目类型一维数组
+                    analysis: "",//解析
+                }
+            },
+            computed:{
+                isXZT(){
+                    //满足单选和多选的显示选项ABCD输入框
+                    return this.type ===0 || this.type === 1
+                },
+                isNotAnswer(){
+                    // type不能等于3，也就是简答题不显示答案
+                    return this.type !== 3
+                }
+            }
+        })
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        /*属性选择器，当渲染没完成就隐藏  如：{{？}}，渲染之后显示页面内容*/
+        [v-cloak] {
+            display: none;
+        }
+
+
+    </style>
+</head>
+<body>
+    <!-- function mylist(props) {
+        props.data
+    }
+    mylist({
+        data: list
+    }) -->
+
+    <div id='app703' v-cloak>
+        <my-list :data="list"><!--传data中list的值-->>
+            <template #default='{row}'><!--v-slot='data'可以写成#default='data' 或 #default='{row}',因为这里默认找data，所以可以省略v-slot-->
+               <a href="">{{row.name}}</a> <!--{{data.row.name}}那么这里也可以简写成{{row.name}}-->
+            </template>
+            
+        </my-list><!--把data中的list传入my-list方法中使用，才可以有值，如果直接使用，会报错，因为my-list方法中没有list的数据，v-for循环的list所要调用的是外面data中list的值-->
+       
+       <!-- <my-list :data="list1"></my-list>
+       <my-list :data="list2"></my-list> -->
+
+    </div>
+
+    <script src="../../js/vue.js"></script>
+    <script>
+        Vue.config.devtools = false
+        Vue.config.productionTip = false
+
+        new Vue({
+            el: '#app703',
+            components: {
+                'my-list': {
+                    props: ['data'],
+                    template: `
+                        <ul>
+                            <li v-for='item in data'>
+                                {{item.id}}---
+                                <slot v-bind:row='item'>{{item.name}}</slot>
+                            </li>
+                        </ul>                   
+                    `,
+                }
+            },
+            data() {
+                return {
+                    list: [
+                        {
+                            id:1,
+                            name: 'mhy1'
+                        },
+                        {
+                            id:2,
+                            name: 'mhy2'
+                        },
+                        {
+                            id:3,
+                            name: 'mhy3'
+                        },
+                    ],
+                    list1: [
+                        {
+                            id:1,
+                            name: 'h1'
+                        },
+                        {
+                            id:2,
+                            name: 'h2'
+                        },
+                        {
+                            id:3,
+                            name: 'h3'
+                        },
+                    ],
+                    list2: [
+                        {
+                            id:1,
+                            name: 'y1'
+                        },
+                        {
+                            id:2,
+                            name: 'y2'
+                        },
+                        {
+                            id:3,
+                            name: 'y3'
+                        },
+                    ]
+                }
+            },
+            methods:{
+            },
+        })
+    </script>
+</body>
+</html>

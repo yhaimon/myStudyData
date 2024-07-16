@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			
+		</style>
+	</head>
+	<body>
+		<div id="app101">
+			{{age}}
+			<button @click="setVal">切换</button>
+		<hr>
+		{{obj.age1}}
+			<button @click="setVal1">切换</button>
+		</div>
+		<script src="../../js/vue.js"></script>
+		<script>
+			//局部
+			new Vue({
+				el: "#app101",
+				//当vue实例初始化的时候，会对data中的便来你进行响应式的处理
+				//初始化完成后，如果data中的对象新增属性等，不会再次响应式处理
+				data() {
+					return {
+						age:10,
+						obj: {
+							age:5,
+							age33: 33,
+							age44: {
+								sss:33,
+								zzz:{
+									www: 555,
+								},
+							}
+						}
+					}
+				},
+				mounted() {
+					console.log(this.obj);
+				},
+				methods:{
+					setVal() {
+						console.log(this.obj)
+						this.age = 20
+						
+					},
+					setVal1() {
+						//加不进obj里面去响应式处理
+						this.obj.age1 = 25
+						//
+						console.log(this.obj)
+					}
+				},
+			})
+
+		</script>
+	</body>
+</html>

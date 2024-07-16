@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        /*属性选择器，当渲染没完成就隐藏  如：{{？}}，渲染之后显示页面内容*/
+        [v-cloak] {
+            display: none;
+        }
+
+        .btn{
+            height:50px;
+            width: 80px;
+            background-color:pink;
+            border: 0;
+            margin: 30px 10px 10px;
+            padding: 10px 0px;
+            border-radius: 20px;
+            font-family: '楷体';
+            font-size: 25px;
+            color:tomato;
+            outline: none;
+            letter-spacing: 2px;/*字符间距*/
+            cursor: pointer;/*cursor : 网页浏览时用户鼠标指针的样式或图形形状。 属性值： default：默认光标（通常是一个箭头） auto：默认，浏览器设置的光标 crosshair：光标为十字线 pointer：光标为一只手 move：光标为某对象可移动 text：光标指示文本 wait：光标指示程序正在忙（通常是一只表或者一个沙漏）  */
+        }
+        .btn:active {
+            box-shadow: 1px 1px 5px 1px   #ccc; 
+        }
+
+        .btn.large{
+            width: 200px;
+        }
+        .btn.green {
+            background-color: green;
+        }
+
+        .flex {
+            display: flex;/*display:flex 是一种布局方式。它即可以应用于容器中，也可以应用于行内元素。 容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（cross axis）。 采用Flex布局的元素，称为Flex容器（flex container），简称”容器”。*/
+        }
+        
+        .a-c-c {
+            align-content: center;/*设置同一 列 子元素在Y轴的对齐方式。flex-start	排列在当前列的最上方；flex-end排列在当前列的最下方；center排列在当前列的中间位置；space-between间距相等排列，上下不留白；space-around间距相等排列，上下留白等于间距的一半
+*/
+        }
+        
+        /*常用样式表的封装*/
+        
+        .a-c {
+            align-items: center;/*设置同一 行 子元素在 Y轴 的对齐方式。flex-start排列在当前行的最上方；flex-end	排列在当前行的最下方；flex-end	排列在当前行的最下方；stretch	当子元素没有设置高度或为auto,将占满整个容器的高度，baseline	以子元素第一行文字的基线对齐*/
+        }
+
+        .j-c {
+            justify-content: center;    
+        }
+
+        .j-s {
+            justify-content: space-between;/*设置同一 行 子元素在 X轴 的对齐方式。flex-start排列在当前行的最左边； flex-end	排列在当前行的最右边；center排列在当前行的中间位置；  space-between	间距相等排列，两边不留白;space-around间距相等排列，两边留白等于间距的一半*/
+        }
+
+
+
+        .box {
+            width: 50%;
+            height:80px;
+            background-color: cadetblue;
+            border-radius: 10px;
+        }
+        .box .box-title {
+            width: 50%;
+            height:20px;
+            background-color: burlywood;
+            border-radius: 10px;
+            margin-bottom: 4px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id='app702' v-cloak>
+        <button class="btn">登录</button>
+        <button class="btn large">登录</button>
+        <button class="btn green large">登录</button>
+        <button class="btn green">登录</button>   
+
+    <hr><hr>
+        <center>
+            <template v-slot:a>
+                我是a
+            </template> 
+    
+            <template #b><!--  v-slot:b 可以简成 #b -->
+                我是b
+            </template>
+            <h3>没有被templat包住，就会到默到c这里来</h3>
+        </center>
+        <br>
+        <center>Hello Word!</center>
+        <hr>
+        <center>
+            <template v-slot:b>
+                我是b
+            </template>
+            <h1>我是海燕</h1>
+        </center>
+
+       <btn>登录</btn>
+       <btn>注册</btn>
+       <btn></btn>
+
+       <hr>
+        
+       <box>
+            <template #title>111</template>
+            <div id="echarts">222</div>
+       </box>
+
+    </div>
+
+    <script src="../../js/vue.js"></script>
+    <script>
+        Vue.config.devtools = false
+        Vue.config.productionTip = false
+
+        new Vue({
+            el: '#app702',
+            //属于本实例的局部components组件
+            components: {
+                //定义了一个组件btn,对应的HTML内容是template中的标签
+                btn: {//使用翻译号 ` `
+                    template:`
+                        <button class="btn">
+                            <slot>按钮</slot>    <!--vue自带的标签：插槽<slot>-->
+                        </button>
+                    `
+                },
+                center:{//template模板，样板
+                    template:`
+                        <div class="flex j-c a-c">
+                            a=<slot name='a'>22</slot> 
+                            b=<slot name='b'>66</slot>  
+                            c=<slot>有</slot>
+                        </div>
+                    `
+                },
+                box: {
+                    template:`
+                        <div class='box'>
+                            <div class='box-title'><slot name='title'></slot></div>
+                            <slot></slot>
+                        </div>
+                    `
+                }
+
+            },
+
+            data() {
+                return {
+
+                }
+            },
+            methods:{
+
+            },
+        })
+    </script>
+</body>
+</html>

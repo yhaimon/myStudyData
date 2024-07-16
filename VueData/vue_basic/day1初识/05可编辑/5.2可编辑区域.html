@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    *{
+        margin: 0;/*外边距*/
+        padding: 0;/*内边距*/
+        list-style-type: none;/* 样式表示设置列表项标记的类型为空 */
+    }
+    .editable-section{
+        width: 300px;
+        border: 1px solid #ccc;
+        margin: 100px;
+    }
+     li{
+        margin: 10px 0;
+    }
+    
+     
+   .j-s{
+        color: blue;/**/
+        justify-content: space-between;/*属性定义了浏览器之间，如何分配顺着弹性容器主轴 (或者网格行轴) 的元素之间及其周围的空间。space-between 在每行上均匀分配弹性元素。 相邻元素间距离相同。 每行第一个元素与行首对齐，每行最后一个元素与行尾对齐。*/
+    }
+
+    .flex{
+        color: red;/**/
+        display: flex;/*display:flex 是一种布局方式。它即可以应用于容器中，也可以应用于行内元素。*/
+        align-items: center;/* align-items 属性定义flex子项在flex容器的当前行的侧轴（纵轴）方向上的对齐方式。*/
+    }
+
+   .editable-section .header{
+       color:yellow; /**/
+        padding: 10px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .label{/*昵称*/
+        width:80px;
+        text-align: right;/*对其方式:右对齐*/
+    }
+    /* :after 是写在css中 给标签之后增加新内容  如 p:after{  content:"增加文本";  color:#f00; font-weight:bold;   }
+　　2. ::after 是写在HTML中的 元素之后增加新内容 如 div::{content:"url(../img/1.jpg)"; background-color:"#ff0";}
+*/
+    .label::after {
+        content: '：';
+    }
+
+</style>
+
+</head>
+<body>
+    <div id="app502" v-cloak>
+        <h1>{{bakVal}}</h1>
+        <div class="editable-section">
+            <div class="flex  header j-s">
+                <div>基本信息</div>
+                <div>
+                    <template v-if='isEdit'><!-- template的作用是模板占位符，可帮助我们包裹元素，但在循环过程当中，template不会被渲染到页面上 -->
+                        <button @click='confirm'>确认</button>
+                        <button @click='cancel'>取消</button>
+                    </template>
+                    <button v-else @click='edit'>编辑</button>
+                </div>
+
+            </div>
+            <ul>
+                <li class="flex">
+                    <div class="label">昵称</div>
+                    <div class="content" >      
+                        <input v-if='isEdit' type="text" v-model="info.nickname">     
+                        <div v-else>{{info.nickname}}</div>
+                                               
+                    </div>
+                </li>
+                <li class="flex">
+                    <div  class="label">年龄</div>
+                    <div class="content" >   
+                         <input v-if="isEdit" type="number" v-model="info.age">        
+                        <div v-else>{{info.age}}</div>                        
+                    </div>
+                </li>
+                <li class="flex">
+                    <div class="label">个性签名</div>
+                    <div class="content" >  
+                        <textarea v-if='isEdit' v-model="info.sign"></textarea> 
+                              
+                        <div v-else>{{info.sign}}</div>                        
+                    </div>
+                </li>               
+            </ul>
+        </div>
+     
+    </div>
+    
+    <script src="http://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.js"></script>
+    <script>
+        Vue.config.devtools = false
+        Vue.config.productionTip = false
+        new Vue({
+            el: '#app502',            
+            data() {
+                return {
+                    bakVal:"",
+                    isEdit: false,//true为显示确认/取消按钮
+                    info:{
+                        nickname:"里斯",
+                        age: "21",
+                        sign: "我最帅"
+                    },
+
+                }
+            },
+            methods: {
+                edit() {//双击事件，更改isEdit值   确认/取消按钮               
+                    this.isEdit = true 
+                    //this.bakVal = this.info       //不适用这个数组引用，因为值会随之变化
+                    //浅克隆一份对象，彼此间没有引用关系
+                    let obj = Object.assign({},this.info)
+                    this.bakVal = obj 
+                    //浅克隆：只克隆第一层 
+                    //深克隆：克隆全部     
+                },
+                confirm() {//确定按钮，显示值隐藏 确认/取消按钮
+                    this.isEdit = false
+                    this.bakVal =null
+                    
+                },
+                cancel(){//取消按钮
+                    this.isEdit = false
+                    this.info = Object.assign({},this.bakVal)
+                    this.bakVal = null
+                }
+
+            }
+        })
+    </script>
+</body>
+</html>

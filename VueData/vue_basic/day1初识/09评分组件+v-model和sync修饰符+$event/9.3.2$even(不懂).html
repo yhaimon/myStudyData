@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app903">
+        <h2>{{age1}}</h2>
+        <demo :value="age1" @input="age1 = $event"></demo>
+        <demo :value="age1"></demo>
+        <hr>
+        
+        <demo :count="age1" @update:count="age1 = $event"></demo>
+        <demo :count.sync="age1" :zz.sync="age1"></demo>
+    </div>
+    <script type="text/javascript" src="../../js/vue.js"></script>
+    <script>
+
+        Vue.component('demo', {
+            props: ['count', 'zz'],
+            template:`
+            <h1>
+                {{count}}---{{zz}}
+                <button @click='$emit("update:count", count+1)'>addCount</button>
+                <button @click='$emit("update:zz", count+2)'>addZZ</button>
+            </h1>
+            `,
+        })
+        
+    //局部
+    new Vue({
+        el: "#app903",
+        data() {
+            return {
+                age1: 20
+            }
+        },
+        mounted() {
+            this.$on('')
+        },
+        methods: {
+            zzz(e){
+
+            }
+        }
+    })
+
+</script>
+</body>
+</html>
